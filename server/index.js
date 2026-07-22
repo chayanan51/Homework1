@@ -1,11 +1,42 @@
 import 'dotenv/config'
 import express from 'express'
 import { Readable } from 'node:stream'
+import { saveAiGradingArtifacts } from './aiGrading.js'
 import { fetchYouTubeMetadata, extractVideoId, getVideoStreamUrl } from './youtube.js'
 
 const app = express()
 const port = process.env.PORT || 3003
 const MODEL = 'gpt-5.6'
+
+const FINAL_REPORT_SYSTEM_PROMPT = `You synthesize a final emotional viewing report styled like a movie review page.
+Return ONLY valid JSON:
+{
+  "headline": "short evocative review headline about how the user felt",
+  "overallScore": 0-10 number with one decimal (e.g. 7.8),
+  "overallSentiment": "positive | mixed | negative | neutral",
+  "ratedLabel": "short label e.g. Based on 20 reaction captures",
+  "emotionalSummary": "2-3 paragraphs on how the user felt watching the video",
+  "scores": {
+    "engagement": { "value": 0-100, "label": "Engagement" },
+    "visual": { "value": 0-100, "label": "Visual React" },
+    "verbal": { "value": 0-100, "label": "Verbal Review" }
+  },
+  "keyMoments": [
+    { "timestampLabel": "M:SS", "reaction": "...", "meaning": "..." }
+  ],
+  "likes": ["..."],
+  "dislikes": ["..."],
+  "criticReviews": [
+    {
+      "author": "Insight Observer",
+      "timeAgo": "Just now",
+      "rating": 1-5,
+      "text": "A punchy 1-2 sentence review summary pulling from interview + visual data"
+    }
+  ],
+  "viewerQuote": "One memorable quote paraphrased from the user's interview answers",
+  "recommendations": "1-2 sentences"
+}`
 
 app.use(express.json({ limit: '25mb' }))
 
@@ -300,44 +331,7 @@ app.post('/api/final-report', async (req, res) => {
       .map((m) => `${m.role === 'assistant' ? 'Interviewer' : 'User'}: ${m.content}`)
       .join('\n\n')
 
-    const response = await openai.chat.completions.create({
-      model: MODEL,
-      messages: [
-        {
-          role: 'system',
-          content: `You synthesize a final emotional viewing report styled like a movie review page.
-Return ONLY valid JSON:
-{
-  "headline": "short evocative review headline about how the user felt",
-  "overallScore": 0-10 number with one decimal (e.g. 7.8),
-  "overallSentiment": "positive | mixed | negative | neutral",
-  "ratedLabel": "short label e.g. Based on 20 reaction captures",
-  "emotionalSummary": "2-3 paragraphs on how the user felt watching the video",
-  "scores": {
-    "engagement": { "value": 0-100, "label": "Engagement" },
-    "visual": { "value": 0-100, "label": "Visual React" },
-    "verbal": { "value": 0-100, "label": "Verbal Review" }
-  },
-  "keyMoments": [
-    { "timestampLabel": "M:SS", "reaction": "...", "meaning": "..." }
-  ],
-  "likes": ["..."],
-  "dislikes": ["..."],
-  "criticReviews": [
-    {
-      "author": "Insight Observer",
-      "timeAgo": "Just now",
-      "rating": 1-5,
-      "text": "A punchy 1-2 sentence review summary pulling from interview + visual data"
-    }
-  ],
-  "viewerQuote": "One memorable quote paraphrased from the user's interview answers",
-  "recommendations": "1-2 sentences"
-}`,
-        },
-        {
-          role: 'user',
-          content: `VIDEO METADATA:
+    const userPrompt = `VIDEO METADATA:
 ${metadataBlock(videoMetadata ?? {})}
 
 VISUAL EVALUATION:
@@ -346,14 +340,33 @@ ${visualEvalBlock(visualEvaluation)}
 INTERVIEW TRANSCRIPT:
 ${transcript || 'No interview conducted.'}
 
-Write the final synthesis report.`,
-        },
+Write the final synthesis report.`
+
+    const finalPrompt = `=== SYSTEM ===
+${FINAL_REPORT_SYSTEM_PROMPT}
+
+=== USER ===
+${userPrompt}`
+
+    const response = await openai.chat.completions.create({
+      model: MODEL,
+      messages: [
+        { role: 'system', content: FINAL_REPORT_SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
       ],
     })
 
     const content = response.choices[0]?.message?.content ?? ''
     const report = extractJsonBlock(content)
-    res.json(report)
+
+    await saveAiGradingArtifacts({
+      finalPrompt,
+      videoMetadata,
+      visualEvaluation,
+      finalReport: report,
+    })
+
+    res.json({ ...report, gradingSaved: true })
   } catch (err) {
     console.error('Final report failed:', err)
     res.status(500).json({ error: err.message ?? 'Final report generation failed.' })

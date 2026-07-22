@@ -34,6 +34,17 @@ Open **http://localhost:5176** in your browser after `npm run dev`.
 4. Click **Start Interview** to chat with Insight Observer
 5. Click **End Chat** to generate the final report
 
+## AI grading artifacts
+
+When you click **End Chat 🍿**, the app automatically saves grading files to `ai_grading/`:
+
+- `final_prompt.txt`
+- `visual_evaluation.txt`
+- `video_metadata.json`
+- `final_report.txt`
+
+Commit and push that folder after one full test run for submission.
+
 ## API endpoints
 
 - `GET /api/health`
