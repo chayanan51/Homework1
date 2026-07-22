@@ -41,9 +41,16 @@ export default function DirectVideoPlayer({ videoId, onTimeUpdate, onEnded, onEr
     video.addEventListener('loadeddata', handleLoaded)
     video.addEventListener('error', handleError)
 
+    const pollId = setInterval(() => {
+      if (!video.paused && !video.ended) {
+        onTimeUpdate?.(video.currentTime)
+      }
+    }, 100)
+
     video.load()
 
     return () => {
+      clearInterval(pollId)
       video.removeEventListener('timeupdate', handleTimeUpdate)
       video.removeEventListener('ended', handleEnded)
       video.removeEventListener('loadeddata', handleLoaded)

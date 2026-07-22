@@ -87,7 +87,7 @@ export default function YouTubePlayer({ videoId, onTimeUpdate, onEnded, onReady,
             pollRef.current = setInterval(() => {
               const time = player.getCurrentTime?.() ?? 0
               onTimeUpdateRef.current?.(time)
-            }, 500)
+            }, 100)
 
             window.setTimeout(() => {
               const state = player.getPlayerState?.()
