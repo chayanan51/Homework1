@@ -1,0 +1,42 @@
+:root {
+  color-scheme: only light;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #ffe4f1;
+  background: #050505;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  color-scheme: only light;
+  background-color: #050505;
+  background-image:
+    radial-gradient(ellipse at top, rgba(255, 45, 149, 0.22), transparent 48%),
+    radial-gradient(ellipse at bottom right, rgba(255, 105, 180, 0.12), transparent 42%),
+    linear-gradient(180deg, #0a0a0a 0%, #050505 55%, #12040c 100%);
+  background-attachment: fixed;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  color-scheme: only light;
+}
+
+button {
+  font-family: inherit;
+}

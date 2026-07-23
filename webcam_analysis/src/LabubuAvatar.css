@@ -1,0 +1,341 @@
+.labubu-avatar {
+  --labubu-fur: #5c4a43;
+  --labubu-fur-dark: #4a3b35;
+  --labubu-skin: #ffffff;
+  --labubu-skin-deep: #f7f7f7;
+  --scale: 0.42;
+  color-scheme: only light;
+  forced-color-adjust: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.labubu-avatar--sm {
+  --scale: 0.28;
+}
+
+.labubu-avatar--md {
+  --scale: 0.42;
+}
+
+.labubu-avatar--lg {
+  --scale: 0.55;
+}
+
+.labubu-figure {
+  position: relative;
+  width: calc(256px * var(--scale));
+  height: calc(384px * var(--scale));
+  transform-origin: bottom center;
+  animation: labubu-bob 2.8s ease-in-out infinite;
+}
+
+.labubu-ears {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(160px * var(--scale));
+  display: flex;
+  justify-content: space-between;
+  z-index: 0;
+  padding: 0 calc(8px * var(--scale));
+}
+
+.labubu-ear {
+  position: relative;
+  width: calc(48px * var(--scale));
+  height: calc(112px * var(--scale));
+  background: var(--labubu-fur);
+  border: calc(4px * var(--scale)) solid var(--labubu-fur-dark);
+  border-radius: 999px 999px 0 0;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: calc(16px * var(--scale));
+}
+
+.labubu-ear--left {
+  transform: rotate(-6deg);
+  transform-origin: bottom center;
+}
+
+.labubu-ear--right {
+  transform: rotate(6deg);
+  transform-origin: bottom center;
+}
+
+.labubu-ear-inner {
+  position: absolute;
+  top: calc(8px * var(--scale));
+  width: calc(20px * var(--scale));
+  height: calc(80px * var(--scale));
+  background: var(--labubu-skin-deep);
+  border-radius: 999px 999px 0 0;
+}
+
+.labubu-ear-core {
+  width: calc(8px * var(--scale));
+  height: calc(56px * var(--scale));
+  margin: calc(8px * var(--scale)) auto 0;
+  background: var(--labubu-fur-dark);
+  opacity: 0.4;
+  border-radius: 999px;
+}
+
+.labubu-head {
+  position: absolute;
+  top: calc(80px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(224px * var(--scale));
+  height: calc(224px * var(--scale));
+  background: var(--labubu-fur);
+  border-radius: 50%;
+  border-bottom: calc(8px * var(--scale)) solid var(--labubu-fur-dark);
+  box-shadow: 0 10px 24px rgba(10, 37, 64, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.labubu-face {
+  position: relative;
+  width: calc(188px * var(--scale));
+  height: calc(168px * var(--scale));
+  /* background-image resists browser auto-dark inversion better than solid white */
+  background-color: #ffffff !important;
+  background-image: linear-gradient(#ffffff, #ffffff) !important;
+  border-radius: 45%;
+  border: 1px solid #e8e8e8;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.35);
+  color-scheme: only light;
+  forced-color-adjust: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(12px * var(--scale));
+}
+
+.labubu-blush {
+  position: absolute;
+  top: calc(64px * var(--scale));
+  width: calc(32px * var(--scale));
+  height: calc(24px * var(--scale));
+  background: #fda4af;
+  border-radius: 999px;
+  opacity: 0.35;
+  filter: blur(4px);
+}
+
+.labubu-blush--left {
+  left: calc(12px * var(--scale));
+}
+
+.labubu-blush--right {
+  right: calc(12px * var(--scale));
+}
+
+.labubu-eyes {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 calc(16px * var(--scale));
+  margin-top: calc(8px * var(--scale));
+  margin-bottom: calc(4px * var(--scale));
+}
+
+.labubu-eye {
+  position: relative;
+  width: calc(40px * var(--scale));
+  height: calc(56px * var(--scale));
+  background: #ffffff;
+  border: calc(2px * var(--scale)) solid #231d1a;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labubu-pupil {
+  width: calc(22px * var(--scale));
+  height: calc(30px * var(--scale));
+  background: #111111;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 calc(1px * var(--scale)) #000;
+}
+
+.labubu-glint {
+  position: absolute;
+  top: calc(10px * var(--scale));
+  right: calc(8px * var(--scale));
+  width: calc(7px * var(--scale));
+  height: calc(7px * var(--scale));
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.95;
+  animation: labubu-pulse 1.6s ease-in-out infinite;
+}
+
+.labubu-nose {
+  width: calc(12px * var(--scale));
+  height: calc(10px * var(--scale));
+  background: #1f1816;
+  border-radius: 999px;
+  margin-top: calc(-6px * var(--scale));
+  margin-bottom: calc(2px * var(--scale));
+}
+
+.labubu-freckles {
+  display: flex;
+  gap: calc(16px * var(--scale));
+  color: #c4a090;
+  font-size: calc(7px * var(--scale));
+  font-weight: 700;
+  opacity: 0.7;
+  margin-top: calc(-4px * var(--scale));
+}
+
+.labubu-mouth {
+  position: relative;
+  width: calc(132px * var(--scale));
+  height: calc(36px * var(--scale));
+  margin-top: calc(6px * var(--scale));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labubu-smile-line {
+  width: 100%;
+  height: calc(18px * var(--scale));
+  display: block;
+  overflow: visible;
+}
+
+.labubu-teeth {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 78%;
+  margin-top: calc(-6px * var(--scale));
+  padding: 0 calc(2px * var(--scale));
+}
+
+.labubu-tooth {
+  width: 0;
+  height: 0;
+  border-left: calc(5px * var(--scale)) solid transparent;
+  border-right: calc(5px * var(--scale)) solid transparent;
+  border-top: calc(11px * var(--scale)) solid #ffffff;
+  filter: drop-shadow(0 1px 0 #231d1a);
+  forced-color-adjust: none;
+  color-scheme: only light;
+}
+
+.labubu-body {
+  position: absolute;
+  top: calc(280px * var(--scale));
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(192px * var(--scale));
+  height: calc(176px * var(--scale));
+  background: var(--labubu-fur);
+  border-radius: calc(40px * var(--scale));
+  border-bottom: calc(8px * var(--scale)) solid var(--labubu-fur-dark);
+  box-shadow: 0 8px 18px rgba(10, 37, 64, 0.16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.labubu-tag {
+  width: calc(28px * var(--scale));
+  height: calc(28px * var(--scale));
+  margin-top: calc(-4px * var(--scale));
+  border-radius: 50%;
+  border: 1px solid #a16207;
+  background: linear-gradient(135deg, #fef9c3, #facc15, #ca8a04);
+  color: #422006;
+  font-size: calc(6px * var(--scale));
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.labubu-feet {
+  position: absolute;
+  bottom: calc(-14px * var(--scale));
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 calc(24px * var(--scale));
+}
+
+.labubu-foot {
+  width: calc(40px * var(--scale));
+  height: calc(24px * var(--scale));
+  background-color: #ffffff !important;
+  background-image: linear-gradient(#ffffff, #ffffff) !important;
+  border-radius: calc(12px * var(--scale)) calc(12px * var(--scale)) calc(6px * var(--scale)) calc(6px * var(--scale));
+  border-bottom: calc(4px * var(--scale)) solid #e5e5e5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color-scheme: only light;
+  forced-color-adjust: none;
+}
+
+.labubu-arm {
+  position: absolute;
+  top: calc(290px * var(--scale));
+  width: calc(32px * var(--scale));
+  height: calc(48px * var(--scale));
+  background: var(--labubu-fur);
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.labubu-arm--left {
+  left: calc(8px * var(--scale));
+  border-radius: 999px 0 0 999px;
+  border-left: calc(2px * var(--scale)) solid var(--labubu-fur-dark);
+  transform: rotate(-12deg);
+}
+
+.labubu-arm--right {
+  right: calc(8px * var(--scale));
+  border-radius: 0 999px 999px 0;
+  border-right: calc(2px * var(--scale)) solid var(--labubu-fur-dark);
+  transform: rotate(12deg);
+}
+
+@keyframes labubu-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes labubu-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
