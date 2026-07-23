@@ -52,12 +52,71 @@ Official Site: https://www.OdysseyMovie.com
 Transcript excerpt: After years of war, no one could stand between my men and home. Not even me. Promise me you'll come back. What if I can't?
 
 VISUAL EVALUATION:
-Overall engagement: Calm, neutral attention with limited visible emotional response.
-Summary: At the opening of the trailer, the viewer appears composed and focused on the screen. With only one early capture, no broader emotional progression can be determined.
+Overall engagement: Low-to-moderate engagement, with sustained attention but limited visible emotional reaction.
+Summary: The viewer maintains a mostly neutral, composed expression throughout the trailer, generally looking toward the screen. Occasional blinks and brief downward or closed-eye moments suggest normal eye movement or reflection rather than strong emotional responses.
 Observations:
-- 0:02: neutral expression with relaxed features — Likely indicates quiet attention as the trailer begins, without a strong visible emotional reaction yet.
+- 0:04: Neutral, slightly downcast gaze — Appears calmly attentive without a pronounced emotional reaction.
+- 0:09: Neutral expression — Maintains steady attention with minimal visible affect.
+- 0:15: Neutral, focused gaze — Continues watching calmly; no clear surprise or excitement is visible.
+- 0:21: Eyes lowered and nearly closed — May be blinking or briefly looking away, indicating a momentary reduction in visible engagement.
+- 0:26: Neutral expression — Returns to a composed, attentive posture.
+- 0:32: Eyes closed in a blink — Likely a normal blink rather than an emotional response.
+- 0:38: Neutral and forward-facing — Appears to be following the trailer without strong visible reaction.
+- 0:44: Eyes closed briefly — Suggests a blink or short moment of disengagement.
+- 0:49: Neutral, slightly serious — May be concentrating on the trailer's dramatic content.
+- 0:55: Neutral expression — Sustained but restrained attention.
+- 1:01: Neutral with a mild downward gaze — Appears contemplative or simply focused on the screen.
+- 1:06: Neutral, composed face — No obvious emotional escalation is visible.
+- 1:12: Neutral with slightly pursed lips — Could indicate concentration or a subdued response to the dramatic scene.
+- 1:18: Neutral, attentive gaze — Continues watching with steady but low-intensity engagement.
+- 1:23: Neutral, mildly serious — Suggests continued focus without visible excitement, fear, or surprise.
+- 1:29: Neutral expression — Remains calm and visually engaged with the content.
+- 1:35: Neutral, slightly downcast eyes — May be reflecting on the trailer's emotional or dramatic tone.
+- 1:41: Eyes closed briefly — Likely a blink or momentary pause in visual attention.
+- 1:46: Neutral and forward-facing — Maintains a composed response as the trailer approaches its conclusion.
+- 1:52: Neutral, slightly serious expression — Finishes the trailer with restrained attention and no strong visible emotional reaction.
 
 INTERVIEW TRANSCRIPT:
-Interviewer: At 0:02, you looked calm and focused as the trailer began. What was your overall impression—what did you like most about it?
+Interviewer: What stood out to you most about *The Odyssey* trailer—either something you liked or something that didn’t quite work for you? I noticed you stayed focused throughout, though your expression remained mostly neutral, with a slightly more serious look around 1:12.
+
+User: I like the sound effect and scenes. but if I don't know the movie before I don't think I will know what it is related about
+
+Interviewer: That makes sense—the sound design and visuals made an impression, but the story itself felt unclear without prior knowledge of *The Odyssey*. Did the trailer’s mystery make you more curious, or did it make you less interested in watching the film?
+
+User: it does make me a bit more curious
+
+Interviewer: What specifically made you curious—the unfamiliar mythological world, the characters and cast, or the question of what happened after the war?
+
+User: I think it would be what happened after the war
+
+Interviewer: That sounds like the emotional hook for you: seeing what comes after the fighting and whether the characters can actually make it home. The line, “Promise me you’ll come back. What if I can’t?” seemed to point directly at that uncertainty. Did the trailer give you enough of the characters’ relationships to make you care about their journey, or did you still want more context?
+
+User: not really. I would like to know more context
+
+Interviewer: What kind of context would have helped most—an introduction to Odysseus and his goal, an explanation of the war, or more about the people waiting for him at home?
+
+User: the explanation about the war and what will happen
+
+Interviewer: That makes sense—you wanted a clearer connection between the war, the journey home, and the dangers that follow. Would you prefer the trailer to explain more of the plot, even if it gives away some surprises, or keep the mystery while providing just enough background to follow the story?
+
+User: I prefer more explanation
+
+Interviewer: What would you want the trailer to explain first: why the war happened, what Odysseus is trying to do afterward, or the obstacles he’ll face on the journey home?
+
+User: I think why it happened and what he is trying to do
+
+Interviewer: That would give you a much stronger starting point—understanding the cause of the war and Odysseus’s goal afterward. Looking back at the trailer, did the impressive scenes and sound effects make up for the lack of explanation, or did the missing context still make it difficult to connect with the story?
+
+User: yes
+
+Interviewer: Did the visuals and sound effects make you more likely to watch the full movie, even though the story needed more explanation? I noticed you stayed attentive but mostly neutral, so I’m curious whether the trailer created genuine excitement or mainly curiosity.
+
+User: mainly curiosity and I have heard about the positive review of the movie so I think I will likely to go watch it
+
+Interviewer: That makes sense—the trailer created curiosity, and the positive reviews give you more confidence to see it despite the limited context. What would you most hope the full movie delivers: a clearer story, spectacular visuals and sound, or a more emotional journey home?
+
+User: a clearer story
+
+Interviewer: A clearer story would help you connect with the journey, especially by explaining why the war began and what Odysseus is trying to accomplish afterward. If the movie provides that context while keeping the impressive visuals and sound, it sounds like it could deliver what the trailer didn’t. Thank you for sharing your thoughts!
 
 Write the final synthesis report.
