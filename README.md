@@ -8,7 +8,7 @@ A React + Vite app where the user watches a YouTube video while the AI watches t
 - **Visual Evaluation** — webcam captures up to 20 reaction snapshots during playback
 - **The Interviewer** — post-video chatbot referencing video content and facial expressions
 - **Final Synthesis** — end chat to generate a formatted emotional viewing report
-- **Model** — all AI processing uses `gpt-5.6`
+- **Model** — all AI processing uses `gpt-5.6-luna`
 
 ## Setup
 

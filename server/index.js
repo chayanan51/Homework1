@@ -6,7 +6,7 @@ import { fetchYouTubeMetadata, extractVideoId, getVideoStreamUrl } from './youtu
 
 const app = express()
 const port = process.env.PORT || 3003
-const MODEL = 'gpt-5.6'
+const MODEL = process.env.OPENAI_MODEL?.trim() || 'gpt-5.6-luna'
 
 const FINAL_REPORT_SYSTEM_PROMPT = `You synthesize a final emotional viewing report styled like a movie review page.
 Return ONLY valid JSON:
@@ -52,16 +52,92 @@ async function getOpenAI() {
 }
 
 function extractJsonBlock(text) {
+  const candidates = []
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/)
-  if (fenced) return JSON.parse(fenced[1])
+  if (fenced) candidates.push(fenced[1].trim())
 
   const start = text.indexOf('{')
   const end = text.lastIndexOf('}')
   if (start !== -1 && end > start) {
-    return JSON.parse(text.slice(start, end + 1))
+    candidates.push(text.slice(start, end + 1).trim())
+  }
+
+  for (const candidate of candidates) {
+    try {
+      return JSON.parse(candidate)
+    } catch {
+      try {
+        return JSON.parse(candidate.replace(/,\s*([}\]])/g, '$1'))
+      } catch {
+        // try next candidate
+      }
+    }
   }
 
   throw new Error('Model response did not contain valid JSON.')
+}
+
+async function createModelResponse(openai, input, { jsonMode = false } = {}) {
+  const params = { model: MODEL, input }
+  if (jsonMode) {
+    params.text = { format: { type: 'json_object' } }
+  }
+
+  const response = await openai.responses.create(params)
+  return response.output_text ?? ''
+}
+
+function textInput(text) {
+  return [{ type: 'input_text', text }]
+}
+
+function messageContent(role, text) {
+  if (role === 'assistant') {
+    return [{ type: 'output_text', text }]
+  }
+
+  return textInput(text)
+}
+
+async function runTextPrompt(openai, { systemPrompt, messages = [], jsonMode = false }) {
+  const input = []
+
+  if (systemPrompt) {
+    input.push({ role: 'system', content: textInput(systemPrompt) })
+  }
+
+  for (const message of messages) {
+    input.push({
+      role: message.role,
+      content: messageContent(message.role, message.content),
+    })
+  }
+
+  return createModelResponse(openai, input, { jsonMode })
+}
+
+async function runVisionPrompt(openai, { systemPrompt, userText, images, jsonMode = false }) {
+  return createModelResponse(
+    openai,
+    [
+      {
+        role: 'system',
+        content: textInput(systemPrompt),
+      },
+      {
+        role: 'user',
+        content: [
+          { type: 'input_text', text: userText },
+          ...images.map((img) => ({
+            type: 'input_image',
+            image_url: img.dataUrl,
+            detail: 'low',
+          })),
+        ],
+      },
+    ],
+    { jsonMode },
+  )
 }
 
 function formatTimestamp(seconds) {
@@ -196,11 +272,6 @@ app.post('/api/visual-evaluation', async (req, res) => {
   try {
     const openai = await getOpenAI()
 
-    const imageContent = images.map((img) => ({
-      type: 'image_url',
-      image_url: { url: img.dataUrl, detail: 'low' },
-    }))
-
     const restricted = Boolean(videoMetadata?.playbackRestricted)
     const timestampList = images
       .map(
@@ -243,33 +314,20 @@ Return ONLY valid JSON with this schema:
 }
 Match observation timestamps to the provided capture times.`
 
-    const response = await openai.chat.completions.create({
-      model: MODEL,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'text',
-              text: `Video being watched:
+    const userText = `Video being watched:
 ${metadataBlock(videoMetadata ?? {})}
 
 ${restricted ? 'Capture order:' : 'Capture timestamps:'}
 ${timestampList}
 
-Analyze these ${images.length} webcam captures in order.`,
-            },
-            ...imageContent,
-          ],
-        },
-      ],
-    })
+Analyze these ${images.length} webcam captures in order.`
 
-    const content = response.choices[0]?.message?.content ?? ''
+    const content = await runVisionPrompt(openai, {
+      systemPrompt,
+      userText,
+      images,
+      jsonMode: true,
+    })
     const evaluation = extractJsonBlock(content)
     res.json(evaluation)
   } catch (err) {
@@ -304,12 +362,12 @@ Your goals:
 - Keep questions conversational, one at a time.
 - Be curious, not judgmental.`
 
-    const response = await openai.chat.completions.create({
-      model: MODEL,
-      messages: [{ role: 'system', content: systemPrompt }, ...messages],
-    })
-
-    const reply = (response.choices[0]?.message?.content ?? '').trim()
+    const reply = (
+      await runTextPrompt(openai, {
+        systemPrompt,
+        messages,
+      })
+    ).trim()
     res.json({ reply })
   } catch (err) {
     console.error('Interview failed:', err)
@@ -348,15 +406,11 @@ ${FINAL_REPORT_SYSTEM_PROMPT}
 === USER ===
 ${userPrompt}`
 
-    const response = await openai.chat.completions.create({
-      model: MODEL,
-      messages: [
-        { role: 'system', content: FINAL_REPORT_SYSTEM_PROMPT },
-        { role: 'user', content: userPrompt },
-      ],
+    const content = await runTextPrompt(openai, {
+      systemPrompt: FINAL_REPORT_SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }],
+      jsonMode: true,
     })
-
-    const content = response.choices[0]?.message?.content ?? ''
     const report = extractJsonBlock(content)
 
     await saveAiGradingArtifacts({
